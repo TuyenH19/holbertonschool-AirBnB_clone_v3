@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Create an instance of Flask and register the Blueprint"""
 
-from flask import Flask
+from flask import Flask, jsonify, make_response
 from os import getenv
 
 # Importing storage and the app_views blueprint
@@ -13,6 +13,12 @@ app = Flask(__name__)
 
 # Register the blueprint
 app.register_blueprint(app_views)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    """Handler for 404 errors that returns a JSON-formatted response."""
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 @app.teardown_appcontext

@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+"""Create a route on the object app_view that return a JSON response"""
+
 from . import app_views
 from flask import jsonify
 

@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Create an instance of Flask and register the Blueprint"""
 
 from flask import Flask
 from os import getenv

@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+"""Create a Blueprint from flask and import views module"""
+
 from flask import Blueprint
 
 # Create a Blueprint named 'app_views'

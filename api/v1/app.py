@@ -18,7 +18,7 @@ app.register_blueprint(app_views)
 @app.errorhandler(404)
 def not_found(error):
     """Handler for 404 errors that returns a JSON-formatted response."""
-    return make_response(jsonify({"error": "Not found"}), 404)
+    return jsonify({"error": "Not found"}), 404
 
 
 @app.teardown_appcontext
@@ -32,4 +32,4 @@ if __name__ == "__main__":
     host = getenv('HBNB_API_HOST', '0.0.0.0')
     port = getenv('HBNB_API_PORT', '5000')
     # Run the Flask app with threading enabled
-    app.run(host=host, port=port, threaded=True)
+    app.run(host=host, port=port)

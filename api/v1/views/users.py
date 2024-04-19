@@ -11,7 +11,7 @@ from models.user import User
 def get_users():
     """get user information for all users"""
     users = []
-    for user in storage.all("User").values():
+    for user in storage.all(User).values():
         users.append(user.to_dict())
     return jsonify(users)
 
@@ -20,7 +20,7 @@ def get_users():
                  strict_slashes=False)
 def get_user(user_id):
     """get user information for specified user"""
-    user = storage.get("User", user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     return jsonify(user.to_dict())
@@ -30,7 +30,7 @@ def get_user(user_id):
                  strict_slashes=False)
 def delete_user(user_id):
     """deletes a user based on its user_id"""
-    user = storage.get("User", user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     user.delete()
@@ -56,7 +56,7 @@ def post_user():
                  strict_slashes=False)
 def put_user(user_id):
     """update a user"""
-    user = storage.get("User", user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     if not request.get_json():

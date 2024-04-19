@@ -5,7 +5,10 @@ from flask import request, jsonify, abort
 from models import storage
 from models.state import State
 from models.city import City
-@app_views.route('/states/<state_id>/cities', methods=['GET'], strict_slashes=False)
+
+
+@app_views.route('/states/<state_id>/cities', methods=['GET'],
+                 strict_slashes=False)
 def get_cities(state_id):
     """Retrieve the list of all City objects of a State object"""
     state = storage.get(State, state_id)
@@ -13,6 +16,8 @@ def get_cities(state_id):
         abort(404)
     cities = [city.to_dict() for city in state.cities]
     return jsonify(cities)
+
+
 @app_views.route('/cities/<cty_id>', methods=['GET'], strict_slashes=False)
 def get_city(city_id):
     """Retrieve a specific City object base on city_id"""
@@ -20,6 +25,8 @@ def get_city(city_id):
     if not city:
         abort(404)
     return jsonify(city.to_dict())
+
+
 @app_views.route('/cities/<city_id>', methods=['DELETE'], strict_slashes=False)
 def delete_city(city_id):
     """Delete a specific City object"""
@@ -34,7 +41,10 @@ def delete_city(city_id):
         # Log the exception details
         app_views.logger.error(f"Error deleting state: {e}")
         abort(500, description="Internal Server Error")
-@app_views.route('/states/<state_id>/cities', methods=['POST'], strict_slashes=False)
+
+
+@app_views.route('/states/<state_id>/cities', methods=['POST'],
+                 strict_slashes=False)
 def create_city(state_id):
     """Create a city object base on state_id"""
     state = storage.get(State, state_id)
@@ -51,6 +61,8 @@ def create_city(state_id):
     storage.new(new_city)
     storage.save()
     return jsonify(new_city.to_dict()), 201
+
+
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
     """ Updates a City object """

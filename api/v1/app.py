@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 """Create an instance of Flask and register the Blueprint"""
 
+from flask_cors import CORS
 from flask import Flask, jsonify, make_response
 from os import getenv
 
 # Importing storage and the app_views blueprint
 from models import storage
 from api.v1.views import app_views
+cors = CORS(app_views, resources={r"/*": {"origins": "0.0.0.0"}})
 
 # Create an instance of Flask
 app = Flask(__name__)

@@ -20,7 +20,7 @@ def get_states():
                  strict_slashes=False)
 def get_state(state_id):
     """get state information for specified state"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     return jsonify(state.to_dict())
@@ -30,15 +30,15 @@ def get_state(state_id):
                  strict_slashes=False)
 def delete_state(state_id):
     """deletes a state based on its state_id"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    state.delete()
+    storage.delete(state)
     storage.save()
-    return (jsonify({})), 200
+    return {}, 200
 
 
-@app_views.route('/states/', methods=['POST'], strict_slashes=False)
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def post_state():
     """create a new state"""
     if not request.get_json():
@@ -54,7 +54,7 @@ def post_state():
                  strict_slashes=False)
 def put_state(state_id):
     """update a state"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     if not request.get_json():

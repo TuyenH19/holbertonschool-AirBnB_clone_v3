@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""states.py"""
+"""Amenities view for API"""
 
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
@@ -9,11 +9,12 @@ from models.amenity import Amenity
 
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def get_amenities():
-    """get amenity information for all amenities"""
-    amenities = []
-    for amenity in storage.all("Amenity").values():
-        amenities.append(amenity.to_dict())
-    return jsonify(amenities)
+    """get amenity list of all amenities"""
+    amenities = storage.all(Amenity)
+    amenity_list = []
+    for amenity in amenities.values():
+        amenity_list.append(amenity.to_dict())
+    return jsonify(amenity_list)
 
 
 @app_views.route('/amenities/<string:amenity_id>', methods=['GET'],

@@ -18,7 +18,7 @@ def get_cities(state_id):
     return jsonify(cities)
 
 
-@app_views.route('/cities/<cty_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def get_city(city_id):
     """Retrieve a specific City object base on city_id"""
     city = storage.get(City, city_id)

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Create a route on the object app_view that return a JSON response"""
 from . import app_views
-from flask import request, jsonify, abort
+from flask import request, jsonify, abort, make_response
 from models import storage
 from models.state import State
 from models.city import City
@@ -32,15 +32,10 @@ def delete_city(city_id):
     """Delete a specific City object"""
     city = storage.get(City, city_id)
     if not city:
-        abort(404)
-    try:
-        storage.delete(city)
-        storage.save()
-        return jsonify({}), 200
-    except Exception as e:
-        # Log the exception details
-        app_views.logger.error(f"Error deleting state: {e}")
-        abort(500, description="Internal Server Error")
+        abort(404, description="City not found")
+    storage.delete(city)
+    storage.save()
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
@@ -57,10 +52,11 @@ def create_city(state_id):
     if 'name' not in city_data:
         abort(400, description="Missing name")
     # Create new City instance
-    new_city = City(name=city_data['name'], state_id=state_id)
+    city_data['state_id'] = state_id
+    new_city = City(**city_data)
     storage.new(new_city)
     storage.save()
-    return jsonify(new_city.to_dict()), 201
+    return make_response(jsonify(new_city.to_dict()), 201)
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
@@ -73,7 +69,7 @@ def update_city(city_id):
     if not req_data:
         abort(400, description="Not a JSON")
     for key, value in req_data.items():
-        if key not in ['id', 'created_at', 'updated_at']:
+        if key not in ['id', 'state_id', 'created_at', 'updated_at']:
             setattr(city, key, value)
     storage.save()
     return jsonify(city.to_dict()), 200

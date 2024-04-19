@@ -14,3 +14,4 @@ from .index import *  # noqa: E402
 from .states import *  # noqa: E402
 from .cities import *  # noqa: E402
 from .amenities import *  # noqa: E402
+from .users import *  # noqa: E402

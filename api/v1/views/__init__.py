@@ -9,8 +9,7 @@ app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
 # Importing views modules;
 # PEP8 will complain about wildcard import, but it's necessary here
 
-# Import the route defined in index
+# Import the route defined in all files
 from .index import *  # noqa: E402
-
-# import the route defined in states
 from .states import *  # noqa: E402
+from .cities import *  # noqa: E402
